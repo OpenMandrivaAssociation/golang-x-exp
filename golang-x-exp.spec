@@ -3,7 +3,7 @@
 %bcond_without bootstrap2
 
 # Run tests in check section
-%bcond_without check
+%bcond_with check
 
 # https://github.com/golang/exp
 %global goipath		golang.org/x/exp

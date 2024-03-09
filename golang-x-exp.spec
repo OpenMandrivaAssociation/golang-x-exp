@@ -1,7 +1,5 @@
 %global debug_package %{nil}
 
-%bcond_without bootstrap2
-
 # Run tests in check section
 %bcond_with check
 
@@ -17,17 +15,11 @@ Version:		0
 Summary:	Experimental and deprecated packages for Go
 Name:		golang-x-exp
 
-Release:	%{?commit:0.git%{commitdate}.}1
-Source0:	https://github.com/golang/exp/archive/814bf88cf225cd422a50435865fb5b9f55b7e59e/exp-814bf88cf225cd422a50435865fb5b9f55b7e59e.tar.gz
-%if %{with bootstrap2}
-# Generated from Source100
-Source3:	vendor.tar.zst
-Source100:	golang-package-dependencies.sh
-%endif
+Release:	%{?commit:0.git%{commitdate}.}2
+Source0:	https://github.com/golang/exp/archive/%{commit}/exp-%{commit}.tar.gz
 URL:		https://github.com/golang/exp
-License:	ASL-2.0 and BSD-3-Clause
+License:	ASL 2.0 and BSD with advertising
 Group:		Development/Other
-%if ! %{with bootstrap2}
 BuildRequires:	compiler(go-compiler)
 BuildRequires:	golang(go.uber.org/zap)
 BuildRequires:	golang(go.uber.org/zap/buffer)
@@ -41,7 +33,6 @@ BuildRequires:	golang(golang.org/x/tools/go/gcexportdata)
 BuildRequires:	golang(golang.org/x/tools/go/packages)
 BuildRequires:	golang(golang.org/x/tools/go/types/typeutil)
 BuildRequires:	golang(golang.org/x/tools/txtar)
-%endif
 
 %description
 This packages provides experimental and deprecated packages for Go.
@@ -74,12 +65,6 @@ building other packages which use import path with
 %prep
 %autosetup -p1 -n exp-%{commit}
 rm -rfv event jsonrpc2 shiny
-
-rm -rf vendor
-
-%if %{with bootstrap2}
-tar xf %{S:3}
-%endif
 
 %build
 %gobuildroot
